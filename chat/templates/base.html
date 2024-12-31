@@ -1,0 +1,155 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebChat</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('https://example.com/your-background-image.jpg'); /* Замените на ваш фоновый URL */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #chat-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для контейнера */
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #messages {
+            list-style-type: none;
+            padding: 0;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: #444;
+        }
+
+        .message.sent {
+            background-color: #28a745; /* Зеленый для отправленных сообщений */
+            text-align: right;
+        }
+
+        .message.received {
+            background-color: #6c757d; /* Серый для полученных сообщений */
+        }
+
+        #message-input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        /* Стили для кнопки "Войти в чат" */
+        .enter-chat-button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .enter-chat-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chat-container">
+        <h1>Welcome to WebChat!</h1>
+
+       
+        <ul id="messages">
+            <li class="message received">Hello, how are you?</li>
+            <li class="message sent">I'm good, thanks! How about you?</li>
+            <li class="message received">I'm doing great, thanks for asking!</li>
+        </ul>
+
+      
+        <div id="message-input-container">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">GO</button>
+        </div>
+
+      
+        <a href="{% url 'chat:home' %}">
+            <button class="enter-chat-button">Enter Chat</button>
+        </a>
+    </div>
+
+    <script>
+        
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messagesList = document.getElementById('messages');
+            const messageText = messageInput.value;
+
+            if (messageText.trim() !== '') {
+                
+                const newMessage = document.createElement('li');
+                newMessage.className = 'message sent';
+                newMessage.innerText = messageText;
+                messagesList.appendChild(newMessage);
+
+                messageInput.value = '';
+                messagesList.scrollTop = messagesList.scrollHeight;
+            }
+        }
+    </script>
+
+</body>
+</html>
+{% endblock %}
